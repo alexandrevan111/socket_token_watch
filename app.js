@@ -3,6 +3,21 @@ var express = require('express')
 var app = express()
 var http = require('http').Server(app)
 
+// Cors
+const cors = require('cors');
+const whitelist = ['http://solutions.simmitri', 'http://solutions.simmitri.com', 'https://solutions.simmitri.com'];
+const corsOptions = {
+  credentials: true, // This is important.
+  origin: (origin, callback) => {
+    if(whitelist.includes(origin))
+      return callback(null, true)
+
+      callback(new Error('Not allowed by CORS'))
+  }
+}
+
+app.use(cors(corsOptions))
+
 // Config
 var config = require("./config/live.js")
 
